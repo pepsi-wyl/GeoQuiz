@@ -1,8 +1,10 @@
 package site.ylan.geoquiz;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -33,10 +35,13 @@ public class DemoActivity extends AppCompatActivity {
 //    private Button mPreviousButton;
     private ImageButton mNextButton;
     private ImageButton mPreviousButton;
+    private Button mCheatButton;
 
     private int mCurrentIndex = 0;
     private int question;
     private boolean trueQuestion;
+
+    private boolean mIsCheater;
 
     private TrueFalse[] mQuestionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_text_1, false),
@@ -65,6 +70,7 @@ public class DemoActivity extends AppCompatActivity {
         mFalseButton = findViewById(R.id.false_button);
         mNextButton = findViewById(R.id.next_button);
         mPreviousButton = findViewById(R.id.previous_button);
+        mCheatButton = findViewById(R.id.cheat_button);
 
         // False监听器
         mTureButton.setOnClickListener(v -> {
@@ -85,14 +91,32 @@ public class DemoActivity extends AppCompatActivity {
         // 上一题监听器
         mPreviousButton.setOnClickListener(v -> {
             mCurrentIndex = Math.abs((mCurrentIndex - 1)) % mQuestionBank.length;
+            mIsCheater = false;
             updateQuestion();
+        });
+
+        // Cheat监听器
+        mCheatButton.setOnClickListener(v->{
+            Intent intent = new Intent(DemoActivity.this, CheatActivity.class);
+            trueQuestion = mQuestionBank[mCurrentIndex].isTrueQuestion();
+            intent.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, trueQuestion);
+//            startActivity(intent);
+            startActivityForResult(intent, 0);
         });
 
         // 题目监听器 点击切换到下一题
         mQuestionTextView.setOnClickListener(v -> {
             mCurrentIndex = Math.abs((mCurrentIndex + 1)) % mQuestionBank.length;
+            mIsCheater = false;
             updateQuestion();
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+        mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
     }
 
     @Override
@@ -155,10 +179,14 @@ public class DemoActivity extends AppCompatActivity {
     private void checkAnswer(boolean userPressedTrue) {
         trueQuestion = mQuestionBank[mCurrentIndex].isTrueQuestion();
         int messageResId = 0;
-        if (userPressedTrue == trueQuestion) {
-            messageResId = R.string.correct_toast;
-        } else {
-            messageResId = R.string.incorrect_toast;
+        if (mIsCheater) {
+            messageResId = R.string.judgment_toast;
+        }else {
+            if (userPressedTrue == trueQuestion) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
         }
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
