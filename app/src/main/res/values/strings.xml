@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">GeoQuiz</string>
+
+    <string name="main_tv_string">Hello!</string>
+    <string name="main_button_string">跳转</string>
+
+    <string name="ylan_tv_string">YLan</string>
+
+<!--    <string name="question_text">1 + 1 = 3 ?</string>-->
+    <string name="question_text_1">1 + 1 = 3 ?</string>
+    <string name="question_text_2">1 + 2 = 4 ?</string>
+    <string name="question_text_3">1 + 3 = 5 ?</string>
+    <string name="question_text_4">1 + 5 = 6 ?</string>
+    <string name="question_text_5">1 + 5 = 7 ?</string>
+
+    <string name="false_button">错误</string>
+    <string name="true_button">正确</string>
+    <string name="next_button">下一题</string>
+    <string name="previous_button">上一题</string>
+
+    <string name="incorrect_toast">错误！</string>
+    <string name="correct_toast">正确！</string>
+    <string name="menu_settings">设置</string>
+
+</resources>
