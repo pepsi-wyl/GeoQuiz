@@ -1,8 +1,10 @@
 package site.ylan.geoquiz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -10,10 +12,17 @@ import android.widget.Toast;
 
 /**
  * Demo控制器
+ *
  * @author ylan
  */
 
 public class DemoActivity extends AppCompatActivity {
+
+    // TAG 常量
+    private static final String TAG = "DemoActivity";
+
+    // KEY_INDEX 常量
+    private static final String KEY_INDEX = "index";
 
     private TextView mQuestionTextView;
 
@@ -30,11 +39,11 @@ public class DemoActivity extends AppCompatActivity {
     private boolean trueQuestion;
 
     private TrueFalse[] mQuestionBank = new TrueFalse[]{
-            new TrueFalse(R.string.question_text_1,false),
-            new TrueFalse(R.string.question_text_2,false),
-            new TrueFalse(R.string.question_text_3,false),
-            new TrueFalse(R.string.question_text_4,true),
-            new TrueFalse(R.string.question_text_5,false),
+            new TrueFalse(R.string.question_text_1, false),
+            new TrueFalse(R.string.question_text_2, false),
+            new TrueFalse(R.string.question_text_3, false),
+            new TrueFalse(R.string.question_text_4, true),
+            new TrueFalse(R.string.question_text_5, false),
     };
 
     @Override
@@ -42,7 +51,14 @@ public class DemoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
 
+        // onCreate方法
+        Log.d(TAG, "onCreate(Bundle) called");
+
         mQuestionTextView = findViewById(R.id.question_text_view);
+        // 初始化Activity1
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
+        }
         updateQuestion();
 
         mTureButton = findViewById(R.id.true_button);
@@ -79,6 +95,50 @@ public class DemoActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // onStart方法
+        Log.d(TAG, "onStart() called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // onResume方法
+        Log.d(TAG, "onResume() called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // onPause方法
+        Log.d(TAG, "onPause() called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // onStop方法
+        Log.d(TAG, "onStop() called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // onDestroy方法
+        Log.d(TAG, "onDestroy() called");
+    }
+
+
+    // Activity被系统回收时候保存数据
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle saveInstanceState) {
+        super.onSaveInstanceState(saveInstanceState);
+        Log.d(TAG, "onSaveInstanceState");
+        saveInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+    }
+
     /**
      * 更新问题
      */
@@ -95,9 +155,9 @@ public class DemoActivity extends AppCompatActivity {
     private void checkAnswer(boolean userPressedTrue) {
         trueQuestion = mQuestionBank[mCurrentIndex].isTrueQuestion();
         int messageResId = 0;
-        if (userPressedTrue == trueQuestion){
+        if (userPressedTrue == trueQuestion) {
             messageResId = R.string.correct_toast;
-        }else{
+        } else {
             messageResId = R.string.incorrect_toast;
         }
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
