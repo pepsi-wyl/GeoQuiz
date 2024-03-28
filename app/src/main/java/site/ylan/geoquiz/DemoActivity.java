@@ -41,7 +41,8 @@ public class DemoActivity extends AppCompatActivity {
     private int question;
     private boolean trueQuestion;
 
-    private boolean mIsCheater;
+    private boolean mIsCheater = false;
+    private String KEY_IS_CHEATER = "is_cheater";
 
     private TrueFalse[] mQuestionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_text_1, false),
@@ -63,6 +64,7 @@ public class DemoActivity extends AppCompatActivity {
         // 初始化Activity1
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
+            mIsCheater = savedInstanceState.getBoolean(KEY_IS_CHEATER);
         }
         updateQuestion();
 
@@ -161,6 +163,7 @@ public class DemoActivity extends AppCompatActivity {
         super.onSaveInstanceState(saveInstanceState);
         Log.d(TAG, "onSaveInstanceState");
         saveInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        saveInstanceState.putBoolean(KEY_IS_CHEATER, mIsCheater);
     }
 
     /**
