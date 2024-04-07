@@ -6,9 +6,9 @@ plugins {
 android {
     // 该模块的应用包名，APP的包名
     namespace = "site.ylan.geoquiz"
+    compileSdk = 34
 
     // 编译运行版本
-    compileSdk = 34
 
     defaultConfig {
         // 该模块的应用包名，APP的包名
@@ -61,6 +61,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildToolsVersion = "28.0.2"
 }
 
 // 依赖
