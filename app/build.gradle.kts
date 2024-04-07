@@ -15,7 +15,7 @@ android {
         applicationId = "site.ylan.geoquiz"
 
         // 最小运行版本
-        minSdk = 30
+        minSdk = 28
         // 希望运行版本
         targetSdk = 34
 
